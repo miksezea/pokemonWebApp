@@ -4,34 +4,38 @@ Vue.createApp({
     data() {
         return {
             pokemons: [],
-            singlePokemon: null,
+            amountToShow: null,
             nameToGetBy: "",
+            singlePokemon: null,
             deleteId: 0,
             deleteMessage: "",
-            addData: { name: "", level: 0, pokeDex: 0, ptype: "", stype: null},
+            addData: { name: "", level: 0, pokeDex: 0, pType: "", sType: null},
             addMessage: "",
-            updateData: { id: 0, name: "", level: 0, pokeDex: 0, ptype: "", stype: null},
-            updateMessage: ""
-
+            updateData: { id: 0, name: "", level: 0, pokeDex: 0, pType: "", sType: null},
+            updateMessage: "",
         }
     },
     methods: {
         getAllPokemons() {
             this.helperGetAndShow(baseUrl)
         },
-        getByName(name) {
-            const url = baseUrl + "?name=" + name
-            this.helperGetAndShow(url)
+        getWithFilters(name, amount) {
+            var customConfig = {
+                headers: {
+                  amount: amount,
+                }
+              }
+            const url = baseUrl + "?namefilter=" + name
+            this.helperGetAndShow(url, customConfig)
         },
-        /*getByPType() {
-
+        /*
+        getByPType() {
         },
         getBySType() {
-
         },*/
-        async helperGetAndShow(url) {
+        async helperGetAndShow(url, config) {
             try {
-                const response = await axios.get(url)
+                const response = await axios.get(url, config)
                 this.pokemons = await response.data
             } catch (ex) {
                 alert(ex.message)

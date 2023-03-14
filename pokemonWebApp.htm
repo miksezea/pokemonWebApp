@@ -12,8 +12,47 @@
 </head>
 
 <body>
-    <h1>Pokemon App</h1>
+    <h1 style="text-align: center;">Pokemon App</h1>
     <div id="app">
-        
+        <h2 style="text-align: center;">Get All etc (GET)</h2>
+        <div class="container-fluid" style="text-align: left;">
+            <div class=""></div>
+            <button id="getAllButton" @click="getAllPokemons" class="btn btn-primary">See All Pokemons</button>
+            <br>
+            <br>
+            <input v-model="nameToGetBy" placeholder="Search by Name" type="text" />
+            <input v-model="amountToShow" placeholder="Amount" type="number" />
+            <button @click="getWithFilters(nameToGetBy, amountToShow)" class="btn btn-primary">Get with filters</button>
+        </div>
+        <br>
+        <div class="container-fluid" style="font-size: large;">
+            <h4>Pokemons:</h4>
+            <table id="pokemonlist" v-if="pokemons.length" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>PokeDex</th>
+                        <th>Primary Type</th>
+                        <th>Secondary Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="pokemon in pokemons">
+                        <td>{{pokemon.id}}</td>
+                        <td>{{pokemon.name}}</td>
+                        <td>{{pokemon.pokeDex}}</td>
+                        <td>{{pokemon.pType}}</td>
+                        <td>{{pokemon.sType}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div v-else>No Pokemons</div>
+        </div>
+        <div class="container-fluid">
+            <h2>Get by ID (GET)</h2>
+        </div>
+        </div>
     </div>
+    <script src="js/pokemonWebApp.js"></script>
 </body>
