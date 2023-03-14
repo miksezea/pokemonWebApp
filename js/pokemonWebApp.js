@@ -5,12 +5,12 @@ Vue.createApp({
         return {
             pokemons: [],
             singlePokemon: null,
-            typeToGetBy: "",
+            nameToGetBy: "",
             deleteId: 0,
             deleteMessage: "",
-            addData: { name: "", level: 0, pokeDex: 0, Ptype: "", Stype: null},
+            addData: { name: "", level: 0, pokeDex: 0, ptype: "", stype: null},
             addMessage: "",
-            updateData: { id: 0, name: "", level: 0, pokeDex: 0, Ptype: "", Stype: null},
+            updateData: { id: 0, name: "", level: 0, pokeDex: 0, ptype: "", stype: null},
             updateMessage: ""
 
         }
@@ -19,12 +19,16 @@ Vue.createApp({
         getAllPokemons() {
             this.helperGetAndShow(baseUrl)
         },
-        getByPType() {
+        getByName(name) {
+            const url = baseUrl + "?name=" + name
+            this.helperGetAndShow(url)
+        },
+        /*getByPType() {
 
         },
         getBySType() {
 
-        },
+        },*/
         async helperGetAndShow(url) {
             try {
                 const response = await axios.get(url)
@@ -34,17 +38,42 @@ Vue.createApp({
             }
         },
         async getById(id) {
-            
+            const url = baseUrl + "/" + id
+            try {
+                const response = await axios.get(url)
+                this.singlePokemon = await response.data
+            } catch (ex) {
+                alert(ex.message)
+            }
         },
-        async deleteCar(deleteId) {
-
+        async deletePokemon(deleteId) {
+            const url = baseUrl + "/" + deleteId
+            try {
+                response = await axios.delete(url)
+                this.deleteMessage = response.status + " " + response.statusText
+                this.getAllPokemons()
+            } catch (ex) {
+                alert(ex.message)
+            }
         },
-        async addCar() {
-
+        async addPokemon() {
+            try {
+                response = await axios.post(baseUrl, this.addData)
+                this.addMessage = "response " + response.status + " " + response.statusText
+                this.getAllPokemons
+            } catch (ex) {
+                alert(ex.message)
+            }
         },
-        async updateCar() {
-
+        async updatePokemon() {
+            const url = baseUrl + "/" + this.updateData.id
+            try {
+                response = await axios.put(url, this.updateData)
+                this.updateMessage = "response " + response.status + " " + response.statusText
+                this.getAllPokemons()
+            } catch (ex) {
+                alert(ex.message)
+            }
         }
     }
-
 }).mount(("#app"))
